@@ -1,4 +1,5 @@
 from .common import ProtocolBase
 
 class ProtocolA(ProtocolBase):
-    pass
+    def __init__(self):
+        raise NotImplementedError()
