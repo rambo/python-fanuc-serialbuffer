@@ -1,0 +1,4 @@
+
+
+class ProtocolBase(object):
+    pass
