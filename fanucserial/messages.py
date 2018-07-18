@@ -1,15 +1,12 @@
 from .common import FanucError
 
 
-
 class MessageParseError(FanucError):
     pass
 
 
-
 class MessageIntegrityError(FanucError):
     pass
-
 
 
 class FanucMessage(object)
@@ -50,7 +47,6 @@ class FanucMessage(object)
 
     def pack_data(self):
         raise NotImplementedError("Must be implemented in subclasses")
-
 
 
 class SATMessage(FanucMessage)
@@ -94,7 +90,6 @@ class SATMessage(FanucMessage)
         raise FanucError("SAT messages are receive-only")
 
 
-
 class SETMessage(SATMessage):
     """Parameter update message from host to buffer"""
 
@@ -104,7 +99,6 @@ class SETMessage(SATMessage):
         self.msg_data = bytes([ord('0') for x in range(72)])
         # TODO: Set the co
         raise NotImplementedError("not done")
-
 
 
 class SDIMessage(FanucMessage)
@@ -120,14 +114,12 @@ class SDIMessage(FanucMessage)
         raise FanucError("SDI messages are receive-only")
 
 
-
 class SDOMessage(SDIMessage)
     """Contents of DO (PMC address G289)"""
 
     def pack_data(self):
         self.msg_command = b'SDO'
         self.msg_data = bytearray(b'%02X' % self.content)
-
 
 
 class RTYMessage(FanucMessage)
@@ -146,7 +138,6 @@ class RTYMessage(FanucMessage)
     def pack_data(self):
         self.msg_command = b'RTY'
         self.msg_data = bytearray(b'%01X' % self.reason)
-
 
 
 class NoDataMessage(FanucMessage)
