@@ -9,7 +9,7 @@ class MessageIntegrityError(FanucError):
     pass
 
 
-class FanucMessage(object)
+class FanucMessage(object):
     """The top-level message packet container"""
     msg_checksum = 0
     msg_command = b'SYN'
@@ -49,7 +49,7 @@ class FanucMessage(object)
         raise NotImplementedError("Must be implemented in subclasses")
 
 
-class SATMessage(FanucMessage)
+class SATMessage(FanucMessage):
     """Status message from buffer to host"""
     rmsts = 0
     bufferstatus = 0
@@ -101,7 +101,7 @@ class SETMessage(SATMessage):
         raise NotImplementedError("not done")
 
 
-class SDIMessage(FanucMessage)
+class SDIMessage(FanucMessage):
     """Contents of DI (PMC address G239)"""
     content = 0
 
@@ -114,7 +114,7 @@ class SDIMessage(FanucMessage)
         raise FanucError("SDI messages are receive-only")
 
 
-class SDOMessage(SDIMessage)
+class SDOMessage(SDIMessage):
     """Contents of DO (PMC address G289)"""
 
     def pack_data(self):
@@ -122,7 +122,7 @@ class SDOMessage(SDIMessage)
         self.msg_data = bytearray(b'%02X' % self.content)
 
 
-class RTYMessage(FanucMessage)
+class RTYMessage(FanucMessage):
     """Retry"""
     reason = 0
 
@@ -140,6 +140,6 @@ class RTYMessage(FanucMessage)
         self.msg_data = bytearray(b'%01X' % self.reason)
 
 
-class NoDataMessage(FanucMessage)
+class NoDataMessage(FanucMessage):
     def pack_data(self):
         self.msg_data = b''
